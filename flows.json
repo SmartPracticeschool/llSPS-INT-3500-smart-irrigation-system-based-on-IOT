@@ -1,0 +1,139 @@
+[
+    {
+        "id": "9a41d32c.59918",
+        "type": "tab",
+        "label": "Flow 4",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "a2ab0640.86f798",
+        "type": "function",
+        "z": "9a41d32c.59918",
+        "name": "",
+        "func": "\n// Array of pseudo random temperatures\nvar temp1 = [15,17,18.5,20,21.5,23,24,22.2,19,32];\n\n// Array of pseudo random relative humidities\nvar humidity1 = [50,55,61,68,65,60,53,49,45,47];\n\n// Counter to select from array.\nvar counter1 = context.get('counter1')||0;\ncounter1 = counter1+1;\nif(counter1 > 9) counter1 = 0;\ncontext.set('counter1',counter1);\n\n// Create MQTT message in JSON\nmsg = {\n payload: JSON.stringify(\n {\n d:{\n \"temperature\" : temp1[counter1],\n \"humidity\" : humidity1[counter1] }\n }\n )\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 500,
+        "y": 240,
+        "wires": [
+            [
+                "292a1162.7fe08e",
+                "41b9828d.de987c"
+            ]
+        ]
+    },
+    {
+        "id": "292a1162.7fe08e",
+        "type": "debug",
+        "z": "9a41d32c.59918",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "10887124.6128af",
+        "type": "inject",
+        "z": "9a41d32c.59918",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 320,
+        "y": 240,
+        "wires": [
+            [
+                "a2ab0640.86f798"
+            ]
+        ]
+    },
+    {
+        "id": "a56d5fcb.13451",
+        "type": "debug",
+        "z": "9a41d32c.59918",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "41b9828d.de987c",
+        "type": "wiotp out",
+        "z": "9a41d32c.59918",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "f6f2891.d118278",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "temp",
+        "format": "json",
+        "qos": "",
+        "name": "",
+        "x": 800,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "86b49e2.fbf6c6",
+        "type": "wiotp in",
+        "z": "9a41d32c.59918",
+        "authType": "d",
+        "deviceKey": "f6f2891.d118278",
+        "deviceType": "",
+        "deviceId": "",
+        "command": "+",
+        "commandType": "g",
+        "qos": 0,
+        "name": "receive commands",
+        "x": 300,
+        "y": 380,
+        "wires": [
+            [
+                "a56d5fcb.13451"
+            ]
+        ]
+    },
+    {
+        "id": "f6f2891.d118278",
+        "type": "wiotp-credentials",
+        "z": "",
+        "name": "",
+        "org": "t3lict",
+        "serverName": "",
+        "devType": "raspberrypi",
+        "devId": "123456",
+        "keepalive": "60",
+        "cleansession": true,
+        "tls": "",
+        "usetls": false
+    }
+]
